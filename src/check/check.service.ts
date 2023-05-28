@@ -1,12 +1,62 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repositories } from 'src/_common/database/database.model.repositories';
 import { Check } from './models/check.model';
+import { Report } from 'src/report/models/report.model';
+import { CreateCheckInput } from './input/create-check.input';
+import { BaseHttpException } from 'src/_common/exceptions/base-http-exception';
+import { ErrorCodeEnum } from 'src/_common/exceptions/error-code.enum';
+import { FindCheckInput } from './input/find-check.input';
+import { UpdateCheckInput } from './input/update-Check.input';
 @Injectable()
-export class UserService {
+export class CheckService {
     constructor(
         @Inject(Repositories.ChecksRepository)
         private readonly checkRepo: typeof Check,
+        @Inject(Repositories.ReportsRepository)
+        private readonly reportRepo: typeof Report,
     ) { }
 
+    async createCheck(input: CreateCheckInput, userId: string) {
+        const existingCheck = await this.checkRepo.findOne({ where: { url: input.url } });
+        if (existingCheck) throw new BaseHttpException(ErrorCodeEnum.CHECK_ALREADY_EXIST);
+        console.log('>>>>>>>>>>>>>>>>>>>>');
+        const check = await this.checkRepo.create({ ...input, userId });
+        // await PingScheduler.addPing(check); 
+        await this.reportRepo.create({
+            status: 'up',
+            availability: 0,
+            outages: 0,
+            downtime: 0,
+            uptime: 0,
+            averageResponseTime: 0,
+            history: [{}],
+            timestamp: Date.now(),
+            checkId: check.id,
+        });
+        return check;
+    }
+
+    async getCheck(checkId: string, userId: string) {
+        const existingCheck = await this.checkRepo.findOne({ where: { id: checkId, userId } });
+        if (!existingCheck) throw new BaseHttpException(ErrorCodeEnum.CHECK_DOSE_NOT_EXIST);
+        return existingCheck;
+    }
+
+    async updateCheck(checkId: string, input: UpdateCheckInput, userId: string) {
+        const existingCheck = await this.getCheck(checkId, userId);
+        //Delete the old check from the ping scheduler
+        // await PingScheduler.deletePing(dto.checkId);
+        const updatedCheck = await this.checkRepo.update({ ...input }, { where: { id: checkId, userId } });
+        //Then add the new one
+        // await PingScheduler.addPing(newcheck);
+        return await this.checkRepo.findOne({ where: { id: checkId, userId } });
+    }
+
+    async deleteCheck(checkId: string, userId: string) {
+        await this.getCheck(checkId, userId);
+        const deletedCheck = await this.checkRepo.destroy({ where: { id: checkId, userId } });
+        // await PingScheduler.deletePing(dto.checkId)
+        return deletedCheck !== 0 ? true : false;
+    }
 
 }

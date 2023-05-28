@@ -6,7 +6,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class Report extends Model {
     @PrimaryKey
     @Default(DataType.UUIDV4)
-    @Column({ type: DataType.UUID })
+    @Column({ type: DataType.UUIDV4 })
     @ApiProperty()
     id: string;
 
@@ -20,7 +20,7 @@ export class Report extends Model {
     @ApiProperty()
     availability: number;
 
-    @AllowNull(false)
+    @AllowNull(true)
     @Column
     @ApiProperty()
     ups: number;
@@ -51,7 +51,7 @@ export class Report extends Model {
     history: any[];
 
     @AllowNull(false)
-    @Column
+    @Column({ type: DataType.BIGINT })
     @ApiProperty()
     timestamp: number;
 

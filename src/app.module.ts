@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './_common/mail/mail.module';
 import { NestBullModule } from './_common/bull/bull.module';
+import { CheckModule } from './check/check.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { NestBullModule } from './_common/bull/bull.module';
       envFilePath: '.env',
     }),
     DatabaseModule,
+    CheckModule,
     UserModule,
     MailModule,
     NestBullModule

@@ -9,7 +9,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class User extends Model {
     @PrimaryKey
     @Default(DataType.UUIDV4)
-    @Column({ type: DataType.UUID })
+    @Column({ type: DataType.UUIDV4 })
     @ApiProperty()
     id: string;
 

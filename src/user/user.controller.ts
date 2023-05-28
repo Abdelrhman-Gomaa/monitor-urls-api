@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { UserService } from './services/user.service';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { User } from './models/user.model';
 import { CurrentUser } from 'src/auth/auth-user.decorator';
@@ -8,6 +8,7 @@ import { CreateUserInput } from './input/create.user.input';
 import { LoginUserInput } from './input/login.user.input';
 import { VerifyUserByEmailInput } from './input/verify-user-by-email.input';;
 
+@ApiTags('User')
 @Controller()
 export class UserController {
     constructor(

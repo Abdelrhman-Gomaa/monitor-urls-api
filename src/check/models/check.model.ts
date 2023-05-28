@@ -10,7 +10,7 @@ import { ProtocolEnum } from '../check.enum';
 export class Check extends Model {
     @PrimaryKey
     @Default(DataType.UUIDV4)
-    @Column({ type: DataType.UUID })
+    @Column({ type: DataType.UUIDV4 })
     @ApiProperty()
     id: string;
 
