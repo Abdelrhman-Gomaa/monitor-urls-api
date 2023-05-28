@@ -1,26 +1,21 @@
-import { ObjectType, Float, Field } from '@nestjs/graphql';
+import { ApiProperty } from '@nestjs/swagger';
 import { DeviceEnum } from './user.enum';
 
-@ObjectType()
 export class LocationType {
-  @Field()
+  @ApiProperty()
   type: string;
 
-  @Field(() => [Float])
+  @ApiProperty({isArray: true})
   coordinates: number[];
 }
 
-@ObjectType()
 export class LastLoginDetailsType {
-  @Field(() => Number, { nullable: true })
+  @ApiProperty()
   lastLoginAt?: number | Date;
 
-  @Field(() => String, { nullable: true })
+  @ApiProperty()
   readableLastLoginAt?:  number | Date;
 
-  @Field(() => DeviceEnum, { nullable: true })
+  @ApiProperty({enum: DeviceEnum})
   lastLoginDevice?: DeviceEnum;
-
-  // @Field(() => JSON, { nullable: true })
-  // platformDetails?: object;
 }
