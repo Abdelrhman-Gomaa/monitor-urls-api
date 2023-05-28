@@ -127,7 +127,7 @@ export class UserService {
         await this.errorIfOtherUserHasSameVerifiedEmail(input.email, user.id);
         const updateUser = await this.userVerificationCodeService.deleteVerificationCodeAndUpdateUserModel(
             { user, useCase: UserVerificationCodeUseCaseEnum.EMAIL_VERIFICATION },
-            { verifiedEmail: input.email, unVerifiedEmail: null }
+            { verifiedEmail: input.email, unVerifiedEmail: null, isCompletedRegister: true }
         );
         const payload: TokenPayload = { userId: user.id };
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET);
