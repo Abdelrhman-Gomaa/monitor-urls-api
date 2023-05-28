@@ -6,7 +6,6 @@ import { UserVerificationCode } from './user-verification-code.model';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Table
-@ObjectType()
 export class User extends Model {
     @PrimaryKey
     @Default(DataType.UUIDV4)

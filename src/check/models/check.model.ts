@@ -7,7 +7,6 @@ import { User } from 'src/user/models/user.model';
 import { ProtocolEnum } from '../check.enum';
 
 @Table
-@ObjectType()
 export class Check extends Model {
     @PrimaryKey
     @Default(DataType.UUIDV4)

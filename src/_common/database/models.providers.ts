@@ -2,6 +2,7 @@ import { Repositories } from "./database.model.repositories";
 import { User } from "src/user/models/user.model";
 import { UserVerificationCode } from "src/user/models/user-verification-code.model";
 import { Check } from 'src/check/models/check.model';
+import { Report } from 'src/report/models/report.model';
 
 export const ModelsProvider = [
     {
@@ -15,5 +16,9 @@ export const ModelsProvider = [
     {
         provide: Repositories.ChecksRepository,
         useValue: Check,
+    },
+    {
+        provide: Repositories.ReportsRepository,
+        useValue: Report,
     },
 ];
