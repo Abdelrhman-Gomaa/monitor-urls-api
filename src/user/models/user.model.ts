@@ -1,5 +1,4 @@
 import { Default, Column, DataType, Model, PrimaryKey, Table, Unique, CreatedAt, UpdatedAt, AllowNull, HasMany } from "sequelize-typescript";
-import { ID, Field, ObjectType } from '@nestjs/graphql';
 import { GenderEnum, LangEnum, UserRoleType } from '../user.enum';
 import { LastLoginDetailsType, LocationType } from '../user.type';
 import { UserVerificationCode } from './user-verification-code.model';

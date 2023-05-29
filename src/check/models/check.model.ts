@@ -1,7 +1,5 @@
 import { Default, Column, DataType, Model, PrimaryKey, Table, ForeignKey, CreatedAt, UpdatedAt, AllowNull, BelongsTo } from "sequelize-typescript";
-import { ID, Field, ObjectType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { LastLoginDetailsType } from 'src/user/user.type';
 import { assertType, authenticationType } from '../check.type';
 import { User } from 'src/user/models/user.model';
 import { ProtocolEnum } from '../check.enum';
@@ -45,16 +43,19 @@ export class Check extends Model {
     webhook?: string;
 
     @AllowNull(true)
+    @Default(5)
     @Column
     @ApiProperty()
     timeout?: number;
 
     @AllowNull(true)
+    @Default(10)
     @Column
     @ApiProperty()
     interval?: number;
 
     @AllowNull(true)
+    @Default(1)
     @Column
     @ApiProperty()
     threshold?: number;
