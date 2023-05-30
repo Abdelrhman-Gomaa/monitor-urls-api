@@ -10,11 +10,13 @@ export class QueueUIProvider {
   static router = null;
   constructor(
     @InjectQueue('mail-otp') private readonly mailQueue: Queue,
+    @InjectQueue('monitoring') private readonly reportQueue: Queue,
   ) {
     const serverAdapter = new ExpressAdapter().setBasePath('/admin/queues');
     createBullBoard({
       queues: [
         new BullAdapter(this.mailQueue),
+        new BullAdapter(this.reportQueue),
       ],
       serverAdapter: serverAdapter
     });

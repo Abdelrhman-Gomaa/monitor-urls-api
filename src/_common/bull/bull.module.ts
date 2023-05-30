@@ -24,6 +24,7 @@ const connectionOptions = {
 
 const queues = [
   BullModule.registerQueue({ name: 'mail-otp' }),
+  BullModule.registerQueue({ name: 'monitoring' }),
 ];
 
 @Global()

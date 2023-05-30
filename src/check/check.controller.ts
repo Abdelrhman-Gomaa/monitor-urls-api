@@ -6,6 +6,7 @@ import { CurrentUser } from 'src/auth/auth-user.decorator';
 import { CreateCheckInput } from './input/create-check.input';
 import { UpdateCheckInput } from './input/update-Check.input';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Report } from 'src/report/models/report.model';
 
 @ApiTags('Check')
 @Controller()

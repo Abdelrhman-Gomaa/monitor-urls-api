@@ -16,7 +16,7 @@ export class Report extends Model {
     status: string;
 
     @AllowNull(false)
-    @Column
+    @Column({ type: DataType.DOUBLE })
     @ApiProperty()
     availability: number;
 
@@ -41,7 +41,7 @@ export class Report extends Model {
     uptime: number;
 
     @AllowNull(false)
-    @Column
+    @Column({ type: DataType.DOUBLE })
     @ApiProperty()
     averageResponseTime: number;
 

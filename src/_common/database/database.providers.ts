@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { Check } from 'src/check/models/check.model';
+import { History } from 'src/report/models/history.model';
 import { Report } from 'src/report/models/report.model';
 import { UserVerificationCode } from 'src/user/models/user-verification-code.model';
 import { User } from 'src/user/models/user.model';
@@ -19,7 +20,7 @@ export const databaseProviders = [
           timestamps: false
         },
       });
-      sequelize.addModels([User, UserVerificationCode, Check, Report]);
+      sequelize.addModels([User, UserVerificationCode, Check, Report, History]);
 
       sequelize.authenticate()
         .then(() => {

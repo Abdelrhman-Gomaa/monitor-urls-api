@@ -5,34 +5,39 @@ import { Report } from 'src/report/models/report.model';
 import { CreateCheckInput } from './input/create-check.input';
 import { BaseHttpException } from 'src/_common/exceptions/base-http-exception';
 import { ErrorCodeEnum } from 'src/_common/exceptions/error-code.enum';
-import { FindCheckInput } from './input/find-check.input';
 import { UpdateCheckInput } from './input/update-Check.input';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
+import { PingStatus } from 'src/report/report.enum';
+import { History } from 'src/report/models/history.model';
+
 @Injectable()
 export class CheckService {
     constructor(
         @Inject(Repositories.ChecksRepository)
         private readonly checkRepo: typeof Check,
-        @Inject(Repositories.ReportsRepository)
-        private readonly reportRepo: typeof Report,
+        @InjectQueue('monitoring') private readonly monitorQueue: Queue
     ) { }
 
     async createCheck(input: CreateCheckInput, userId: string) {
         const existingCheck = await this.checkRepo.findOne({ where: { url: input.url } });
         if (existingCheck) throw new BaseHttpException(ErrorCodeEnum.CHECK_ALREADY_EXIST);
-        console.log('>>>>>>>>>>>>>>>>>>>>');
         const check = await this.checkRepo.create({ ...input, userId });
-        // await PingScheduler.addPing(check); 
-        await this.reportRepo.create({
-            status: 'up',
-            availability: 0,
-            outages: 0,
-            downtime: 0,
-            uptime: 0,
-            averageResponseTime: 0,
-            history: [{}],
-            timestamp: Date.now(),
-            checkId: check.id,
-        });
+        try {
+            await this.monitorQueue.add('monitoring',
+                {
+                    id: check.id,
+                    protocol: check.protocol,
+                    url: check.url
+                },
+                {
+                    repeat: {
+                        limit: 3,
+                        every: check.interval
+                    },
+                    jobId: check.id.toString(),
+                });
+        } catch (error) { console.log('>>>>>>>>>>> :', error); }
         return check;
     }
 

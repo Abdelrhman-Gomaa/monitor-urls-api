@@ -1,4 +1,3 @@
-import { Field, InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail } from 'class-validator';
 import { ErrorCodeEnum } from 'src/_common/exceptions/error-code.enum';

@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './_common/mail/mail.module';
 import { NestBullModule } from './_common/bull/bull.module';
 import { CheckModule } from './check/check.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { CheckModule } from './check/check.module';
     CheckModule,
     UserModule,
     MailModule,
-    NestBullModule
+    NestBullModule,
+    ReportModule,
   ],
   controllers: [],
   providers: [],
